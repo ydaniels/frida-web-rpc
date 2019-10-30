@@ -10,11 +10,11 @@ setup(name='frida_rpc',
       version='0.1.0',
       description='Expose frida RPC as a service you can access over the web or network',
       long_description=readme(),
+      long_description_content_type='text/markdown',
       classifiers=[
 
           'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 3.6+',
-          'Topic :: Reverse Engineering :: Frida RPC',
+          'Programming Language :: Python :: 3.6',
       ],
       keywords='frida rpc web network internet reverse engineering',
       url='https://github.com/ydaniels/frida-web-rpc',

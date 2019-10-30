@@ -11,8 +11,10 @@ pip install frida_rpc
 Running
 ========
 
-> set FLASK_APP=frida_rpc
-> flask run
+
+ - set FLASK_APP=frida_rpc
+ - flask run
+
 
 **Send request to http://your_ip:port/rpc  with request below**
 
