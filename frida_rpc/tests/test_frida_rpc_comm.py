@@ -26,7 +26,7 @@ class TestWebRPCCommand(unittest.TestCase):
         self.p.terminate()
 
     def test_command_fail_exception(self):
-        """Command """
+        """Command must generate exception when necessary"""
         c = Command(self.data, whitelist=[])
         self.assertRaises(InvalidDataException, c.validate_data)
 
@@ -99,7 +99,7 @@ class TestWebRPCCommand(unittest.TestCase):
             self.assertEqual(return_data['error'], Command.ERROR['unable_to_start_app'])
 
     def test_command_good_script(self):
-        """Command failed process does not exist supplied"""
+        """Command is successful """
         c_data = self.data.copy()
         c = Command(c_data, whitelist=self.white_list)
         c.validate_data()
@@ -107,7 +107,7 @@ class TestWebRPCCommand(unittest.TestCase):
         self.assertEqual(result, self.result)
 
     def test_command_invalid_script(self):
-        """Command failed process does not exist supplied"""
+        """Command failed when invalid script is supplied"""
         c_data = self.data.copy()
         c_data['script'] = 'Invalid script'
         c = Command(c_data, whitelist=self.white_list)
@@ -115,7 +115,7 @@ class TestWebRPCCommand(unittest.TestCase):
         self.assertRaises(CommandException, c.run_command)
 
     def test_command_good_bs64_script(self):
-        """Command failed process does not exist supplied"""
+        """Command works with base64 script """
         c_data = self.data.copy()
         c_data['script'] = base64.b64encode(bytes(c_data['script'], encoding='utf8'))
         c = Command(c_data, whitelist=self.white_list)

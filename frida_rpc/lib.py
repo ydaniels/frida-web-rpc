@@ -4,7 +4,7 @@ import binascii
 import logging
 from .system import BaseOS
 
-logging.getLogger('frida_rpc').addHandler(logging.NullHandler())
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 class InvalidDataException(Exception):

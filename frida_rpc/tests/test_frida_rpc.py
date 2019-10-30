@@ -1,17 +1,21 @@
 import json
 import unittest
-from frida_rpc.app import app
+from frida_rpc.app import create_app
 from frida_rpc.lib import Command
+
+config_file = {}
+app = create_app(config_file=config_file)
 
 
 class TestRPCApp(unittest.TestCase):
 
     def setUp(self):
+
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
-        app.config['WHITELIST_APP'] = []
-        app.config['debug'] = False
-        app.config['token'] = None
+        app.config['WHITE_LIST_APP'] = []
+        app.config['DEBUG'] = False
+        app.config['SECRET_KEY'] = None
         self.data = {'method_name': 'add', 'process': 'python', 'script': 'null', 'args': '[]'}
 
         self.app = app.test_client()
@@ -19,7 +23,7 @@ class TestRPCApp(unittest.TestCase):
 
     @staticmethod
     def set_debug():
-        app.config['debug'] = True
+        app.config['DEBUG'] = True
 
     def tearDown(self):
         pass
@@ -31,17 +35,17 @@ class TestRPCApp(unittest.TestCase):
 
     def test_fail_app_no_debug_wrong_token(self):
         """Do not allow request if not in debug and token supplied is wrong from app config token"""
-        app.config['token'] = 'RIGHT_TOKEN'
+        app.config['SECRET_KEY'] = 'RIGHT_TOKEN'
         local_data = self.data.copy()
-        local_data['token'] = 'WRONG_TOKEN'
+        local_data['SECRET_KEY'] = 'WRONG_TOKEN'
         response = self.app.get('/rpc', data=local_data)
         self.assertEqual(response.status_code, 405)
 
     def test_pass_app_no_debug_right_token(self):
         """Allow request if token is supplied and correct and app not in debug"""
-        app.config['token'] = 'RIGHT_TOKEN'
+        app.config['SECRET_KEY'] = 'RIGHT_TOKEN'
         local_data = self.data.copy()
-        local_data['token'] = 'RIGHT_TOKEN'
+        local_data['SECRET_KEY'] = 'RIGHT_TOKEN'
         response = self.app.get('/rpc', data=local_data)
         self.assertEqual(response.status_code, 200)
 
@@ -63,7 +67,7 @@ class TestRPCApp(unittest.TestCase):
     def test_allow_app_in_whitelist(self):
         """ Allow to process app in whitelist """
         self.set_debug()
-        app.config['WHITELIST_APP'] = ['python']
+        app.config['WHITE_LIST_APP'] = ['python']
         response = self.app.get('/rpc', data=self.data)
         data = json.loads(response.data)
         self.assertNotEqual(data['error'], Command.ERROR['app_not_whitelist'])

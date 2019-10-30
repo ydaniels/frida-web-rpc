@@ -2,7 +2,7 @@ import logging
 import frida
 from .util import FridaServer
 
-logging.getLogger('frida_rpc').addHandler(logging.NullHandler())
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 class BaseOS:
