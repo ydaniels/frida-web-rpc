@@ -11,8 +11,8 @@ pip install frida_rpc
 Running
 ========
 
-
- - set FLASK_APP=frida_rpc
+ - export FLASK_APP=frida_rpc.app  FLASK_DEBUG=1 FRIDA_RPC_CONFIG=/path/to/your/config.cfg
+ - For windows change export above to set
  - flask run
 
 
