@@ -7,8 +7,9 @@ def readme():
 
 
 setup(name='frida_rpc',
-      version='0.1.0',
+      version='0.1.1',
       description='Expose frida RPC as a service you can access over the web or network',
+
       long_description=readme(),
       long_description_content_type='text/markdown',
       classifiers=[
@@ -22,6 +23,7 @@ setup(name='frida_rpc',
       author_email='yomid4all@gmail.com',
       license='MIT',
       packages=['frida_rpc'],
+      include_package_data=True,
       install_requires=[
           'flask',
           'frida'
