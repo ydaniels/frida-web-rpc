@@ -2,7 +2,8 @@ import base64
 import unittest
 import multiprocessing
 import time
-from frida_rpc.lib import Command, CommandException, InvalidDataException
+from frida_rpc.lib import Command
+from frida_rpc.exceptions import CommandException, InvalidDataException
 
 
 class TestWebRPCCommand(unittest.TestCase):

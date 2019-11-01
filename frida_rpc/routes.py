@@ -1,7 +1,10 @@
 import json
 from flask import current_app, Blueprint
 from flask import request, jsonify, abort
-from frida_rpc.lib import Command, InvalidDataException, CommandException
+
+from  .lib import Command
+from .exceptions import CommandException
+from .exceptions import InvalidDataException
 
 frida_rpc_bp = Blueprint('frida_rpc_bp', __name__)
 
@@ -18,9 +21,8 @@ def rpc_command():
         abort(405, 'You must supply SECRET_KEY when not in debug')
 
     white_list = current_app.config.get('WHITE_LIST_APP', [])
-
     if request.values:
-        c = Command(dict(request.values), whitelist=white_list)
+        c = Command(command_data= request.values, whitelist=white_list)
     elif request_json:
         c = Command(json.loads(request_json))
     else:

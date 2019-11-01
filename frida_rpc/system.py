@@ -2,7 +2,7 @@ import logging
 import frida
 from .util import FridaServer
 
-logging.getLogger(__name__).addHandler(logging.NullHandler())
+logging.getLogger('frida_rpc').addHandler(logging.NullHandler())
 
 
 class BaseOS:
@@ -10,7 +10,6 @@ class BaseOS:
      You can overide this class to implement custom and specified os functions"""
 
     def __init__(self, process, device='local', frida_location=None):
-
         self.process = process
         self.device = device
         self.frida = FridaServer(device_type=device, frida_location=frida_location)

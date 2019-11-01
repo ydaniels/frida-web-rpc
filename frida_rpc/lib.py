@@ -2,17 +2,13 @@ import time
 import base64
 import binascii
 import logging
+
+from .exceptions import CommandException
+from .exceptions import InvalidDataException
 from .system import BaseOS
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-
-class InvalidDataException(Exception):
-    pass
-
-
-class CommandException(Exception):
-    pass
 
 
 class Command:
@@ -30,14 +26,17 @@ class Command:
     def __init__(self, command_data, whitelist=None):
         """command_data = {'process':'com.google.chrome', 'script': 'javascript base64 code',
          'method_name':doCommand, 'args':[]}"""
+
         self.command_data = command_data
-        self.system = BaseOS(command_data.get('process'), frida_location=command_data.get('frida_location'))
         self.WHITELIST_APP = whitelist or []
         self.app_args = self.command_data.get('args')
         self.process = self.command_data.get('process')
         self.method_name = self.command_data.get('method_name')
         self.script = self.command_data.get('script')
-
+        device = command_data.get('device_type')
+        frida_location = command_data.get('frida_location')
+        self.system = BaseOS(self.process, device=device,
+                             frida_location=frida_location)
     def validate_data(self):
 
         data = {'success': False}
