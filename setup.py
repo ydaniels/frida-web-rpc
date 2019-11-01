@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='frida_rpc',
-      version='0.1.1',
+      version='0.1.2',
       description='Expose frida RPC as a service you can access over the web or network',
 
       long_description=readme(),
